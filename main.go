@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -37,7 +36,12 @@ func parseArgs() (*string, *int, *bool) {
 }
 
 func wrapText(text string, wrap int, isSmart bool) string {
+	// Remove all existing end line characters
 	text = strings.Replace(text, "\n", " ", -1)
-	wrapStr := strconv.Itoa(wrap)
-	return text + wrapStr
+	for i := 0; i < len(text); i++ {
+		if i%wrap == 0 {
+			text = text[:i] + "\n" + text[i:]
+		}
+	}
+	return text
 }
